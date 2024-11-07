@@ -9,10 +9,11 @@ class Encode extends Model
     protected $fillable = [
         'id',
         'job',
-        'stock_code',
-        'stock_description',
+        'stockCode',
+        'stockDescription',
         'line',
-        'pcs',
+        'targetInPcs',
+        'date'
     ];
 
     protected $casts = [

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('stockDescription');
             $table->integer('targetInPcs');
             $table->string('line');
+            $table->date('date');
             $table->timestamps();
         });
     }

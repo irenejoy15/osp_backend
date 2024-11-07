@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\WipMaster;
 use App\Http\Resources\WipMasterResource;
-
+use App\Models\Encode;
+use Uuid;
 class ScoreBoardController extends Controller
 {
     public function get_job($job){
@@ -28,5 +29,30 @@ class ScoreBoardController extends Controller
             ], 200);
         }
         
+    }
+
+    public function encode(Request $request){
+        $id = Uuid::generate(4);
+        $job_number = $request->input('job_number');
+        $stockCode = $request->input('stockCode');
+        $stockDescription = $request->input('stockDescription');
+        $targetInPcs = $request->input('targetInPcs');
+        $line = $request->input('line');
+        $date = $request->input('date');
+
+        $data = array(
+            'id'=>$id,
+            'job'=>$job_number,
+            'stockCode'=>$stockCode,
+            'stockDescription'=>$stockDescription,
+            'targetInPcs'=>$targetInPcs,
+            'line'=>$line,
+            'date'=>$date
+        );
+        Encode::create($data);
+        return response()->json([
+            'job'=>$data,
+            'message' => 'DATA SUCCESSFULLY CREATED'
+        ], 200);
     }
 }
