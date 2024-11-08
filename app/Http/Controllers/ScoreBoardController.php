@@ -7,8 +7,35 @@ use App\Models\WipMaster;
 use App\Http\Resources\WipMasterResource;
 use App\Models\Encode;
 use Uuid;
+use Carbon\Carbon;
 class ScoreBoardController extends Controller
 {
+    public function targets(Request $request){
+        $pageSize = $request->get('pagesize');
+        $currentPage = $request->get('page');
+        $date = $request->get('date');
+        $encode_query = Encode::query();
+        
+        if($pageSize && $currentPage):
+            $skip = $pageSize * ($currentPage-1);
+        endif;
+
+        if(empty($date)):
+            $encodes = $encode_query->skip($skip)->limit($pageSize)->get();
+            $count =  Encode::count();
+        else:
+         
+            $encodes = $encode_query->whereDate('date',$date)->skip($skip)->limit($pageSize)->get();
+            $count =  Encode::whereDate('date', $date)->count();
+        endif;
+
+        return response()->json([
+            'jobs' => $encodes,
+            'message' => 'LIST LOADED',
+            'maxPosts'=>$count
+        ], 200);
+    }
+
     public function get_job($job){
         $job = WipMaster::where('Job',str_pad(trim($job), 15, '0', STR_PAD_LEFT))->first();
         if(empty($job)){

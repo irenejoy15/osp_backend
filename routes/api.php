@@ -6,6 +6,7 @@ use App\Http\Controllers\ScoreBoardController;
 
 Route::get('/job/{id}', [ScoreBoardController::class, 'get_job']);
 Route::post('/encode', [ScoreBoardController::class, 'encode']);
+Route::get('/daily_target', [ScoreBoardController::class, 'targets']);
 
 Route::get('/user', function (Request $request) {
     return $request->user();
