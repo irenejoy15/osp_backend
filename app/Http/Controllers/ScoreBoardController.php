@@ -20,7 +20,7 @@ class ScoreBoardController extends Controller
             $skip = $pageSize * ($currentPage-1);
         endif;
 
-        if(empty($date)):
+        if(empty($date)||$date == 'null'):
             $encodes = $encode_query->skip($skip)->limit($pageSize)->get();
             $count =  Encode::count();
         else:
@@ -80,6 +80,39 @@ class ScoreBoardController extends Controller
         return response()->json([
             'job'=>$data,
             'message' => 'DATA SUCCESSFULLY CREATED'
+        ], 200);
+    }
+
+    public function get_encode($id){
+        $encode = Encode::where('id',$id)->first();
+        return response()->json([
+            'job'=>$encode,
+            'message' => 'DATA SUCCESSFULLY CREATED'
+        ], 200);
+    }
+
+    public function encode_update(Request $request){
+        $id= $request->input('id');
+        $targetInPcs = $request->input('targetInPcs');
+        $line = $request->input('line');
+        $date = $request->input('date');
+        
+        $data = array(
+            'targetInPcs'=>$targetInPcs,
+            'line'=>$line,
+            'date'=>$date
+        );
+        Encode::where('id',$id)->update($data);
+        return response()->json([
+            'job'=>$data,
+            'message' => 'DATA SUCCESSFULLY UPDATED'
+        ], 200);
+    }
+
+    public function encode_delete($id){
+        Encode::where('id',$id)->delete();
+        return response()->json([
+            'message' => 'DATA SUCCESSFULLY DELETED'
         ], 200);
     }
 }
