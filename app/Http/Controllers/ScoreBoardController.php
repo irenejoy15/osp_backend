@@ -5,12 +5,23 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\WipMaster;
 use App\Http\Resources\WipMasterResource;
+use App\Http\Resources\ActualResource;
+
 use App\Models\Encode;
 use App\Models\ActualTarget;
 use Uuid;
 use Carbon\Carbon;
 class ScoreBoardController extends Controller
-{
+{   
+    public function current(){
+        $date = Carbon::now()->format('Y-m-d');
+        $jobs = Encode::whereDate('date',$date)->get('job');
+        return response()->json([
+            'curentJobs'=>$jobs,
+            'currentDate' => $date,
+        ], 200);
+    }
+
     public function targets(Request $request){
         $pageSize = $request->get('pagesize');
         $currentPage = $request->get('page');
@@ -110,7 +121,7 @@ class ScoreBoardController extends Controller
     }
 
     public function get_encode($id){
-        $encode_row = Encode::where('id',$id)->first();
+        $encode = Encode::where('id',$id)->first();
         return response()->json([
             'job'=>$encode,
             'message' => 'DATA SUCCESSFULLY CREATED'
@@ -156,4 +167,31 @@ class ScoreBoardController extends Controller
             'message' => 'DATA SUCCESSFULLY DELETED'
         ], 200);
     }
+
+    public function actual_targets(Request $request){
+        $pageSize = $request->get('pagesize');
+        $currentPage = $request->get('page');
+        $date = $request->get('date');
+        $actual_query = ActualTarget::query();
+        
+        if($pageSize && $currentPage):
+            $skip = $pageSize * ($currentPage-1);
+        endif;
+
+        if(empty($date)||$date == 'null'):
+            $actual_targets = $actual_query->skip($skip)->limit($pageSize)->get();
+            $count =  ActualTarget::count();
+        else:
+         
+            $actual_targets = $actual_query->whereDate('dateActual',$date)->skip($skip)->limit($pageSize)->get();
+            $count =  ActualTarget::whereDate('dateActual', $date)->count();
+        endif;
+
+        return response()->json([
+            'actualJobs' => ActualResource::collection($actual_targets),
+            'message' => 'LIST LOADED',
+            'maxPosts'=>$count
+        ], 200);
+    }
+
 }

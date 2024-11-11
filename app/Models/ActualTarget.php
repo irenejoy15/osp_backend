@@ -19,4 +19,8 @@ class ActualTarget extends Model
         'id' => 'string',
         'encodeId'=>'string'
     ];
+
+    public function Encode(){
+        return $this->belongsTo(Encode::class,'encodeId','id');
+    }
 }

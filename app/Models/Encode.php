@@ -19,4 +19,5 @@ class Encode extends Model
     protected $casts = [
         'id' => 'string',
     ];
+
 }
