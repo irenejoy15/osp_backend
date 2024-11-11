@@ -2,3 +2,7 @@
 php artisan migrate --path=\database/migrations/2024_11_07_075850_create_encodes_table.php
 
 php artisan migrate:refresh --path=\database/migrations/2024_11_07_075850_create_encodes_table.php
+
+php artisan migrate --path=\database/migrations/2024_11_11_030915_create_actual_targets_table.php
+
+php artisan migrate:refresh --path=\database/migrations/2024_11_11_030915_create_actual_targets_table.php

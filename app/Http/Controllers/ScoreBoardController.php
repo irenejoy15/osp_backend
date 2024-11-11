@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\WipMaster;
 use App\Http\Resources\WipMasterResource;
 use App\Models\Encode;
+use App\Models\ActualTarget;
 use Uuid;
 use Carbon\Carbon;
 class ScoreBoardController extends Controller
@@ -83,12 +84,52 @@ class ScoreBoardController extends Controller
         ], 200);
     }
 
+    public function encode_target(Request $request){
+        $id = Uuid::generate(4);
+        $encodeId = $request->input('id');
+        $targetActual = $request->input('targetActual');
+        $lineActual = $request->input('lineActual');
+        $dateActual = $request->input('dateActual');
+        $timeDropDown = $request->input('timeDropDown');
+
+        $data = array(
+            'id'=>$id,
+            'encodeId'=>$encodeId,
+            'targetActual'=>$targetActual,
+            'lineActual'=>$lineActual,
+            'dateActual'=>$dateActual,
+            'timeDropDown'=>$timeDropDown
+        );
+
+        ActualTarget::create($data);
+
+        return response()->json([
+            'actual'=>$data,
+            'message' => 'ACTUAL SUCCESSFULLY CREATED'
+        ], 200);
+    }
+
     public function get_encode($id){
-        $encode = Encode::where('id',$id)->first();
+        $encode_row = Encode::where('id',$id)->first();
         return response()->json([
             'job'=>$encode,
             'message' => 'DATA SUCCESSFULLY CREATED'
         ], 200);
+    }
+
+    public function get_encode_date($job,$date){
+        $encode_row = Encode::where('job',$job)->whereDate('date',$date)->first();
+        if(!empty($encode_row)):
+            return response()->json([
+                'job'=>$encode_row,
+                'message' => 'DATA SUCCESSFULLY CREATED'
+            ], 200);
+        else:
+            return response()->json([
+                'job'=>'',
+                'message' => 'DATA SUCCESSFULLY CREATED'
+            ], 500);
+        endif;
     }
 
     public function encode_update(Request $request){
