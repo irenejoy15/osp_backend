@@ -16,6 +16,7 @@ class ActualResource extends JsonResource
     {
         return [
             'id'=> $this->id,
+            'encodeId'=>$this->encodeId,
             'job'=>$this->Encode->job,
             'stockCode'=>$this->Encode->stockCode,
             'stockDescription'=>$this->Encode->stockDescription,

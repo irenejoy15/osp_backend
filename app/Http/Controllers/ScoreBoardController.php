@@ -179,11 +179,11 @@ class ScoreBoardController extends Controller
         endif;
 
         if(empty($date)||$date == 'null'):
-            $actual_targets = $actual_query->skip($skip)->limit($pageSize)->get();
+            $actual_targets = $actual_query->skip($skip)->limit($pageSize)->orderBy('created_at','DESC')->orderBy('id','ASC')->get();
             $count =  ActualTarget::count();
         else:
          
-            $actual_targets = $actual_query->whereDate('dateActual',$date)->skip($skip)->limit($pageSize)->get();
+            $actual_targets = $actual_query->whereDate('dateActual',$date)->skip($skip)->limit($pageSize)->orderBy('created_at','DESC')->orderBy('id','ASC')->get();
             $count =  ActualTarget::whereDate('dateActual', $date)->count();
         endif;
 
