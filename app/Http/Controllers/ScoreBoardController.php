@@ -124,7 +124,7 @@ class ScoreBoardController extends Controller
         $encode = Encode::where('id',$id)->first();
         return response()->json([
             'job'=>$encode,
-            'message' => 'DATA SUCCESSFULLY CREATED'
+            'message' => 'DATA SUCCESSFULLY LOADED'
         ], 200);
     }
 
@@ -191,6 +191,14 @@ class ScoreBoardController extends Controller
             'actualJobs' => ActualResource::collection($actual_targets),
             'message' => 'LIST LOADED',
             'maxPosts'=>$count
+        ], 200);
+    }
+
+    public function edit_target($id){
+        $query = ActualTarget::where('id',$id)->first();
+        return response()->json([
+            'actualJob'=>new ActualResource($query),
+            'message' => 'DATA SUCCESSFULLY CREATED'
         ], 200);
     }
 
