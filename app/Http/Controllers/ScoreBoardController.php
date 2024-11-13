@@ -202,4 +202,31 @@ class ScoreBoardController extends Controller
         ], 200);
     }
 
+    public function update_target(Request $request){
+        $id = $request->input('id');
+        $targetActual = $request->input('targetActual');
+        $lineActual = $request->input('lineActual');
+        $timeDropDown = $request->input('timeDropDown');
+
+        $data = array(
+            'targetActual'=>$targetActual,
+            'lineActual'=>$lineActual,
+            'timeDropDown'=>$timeDropDown
+        );
+
+        ActualTarget::where('id',$id)->update($data);
+
+        return response()->json([
+            'actual'=>$data,
+            'message' => 'ACTUAL SUCCESSFULLY CREATED'
+        ], 200);
+    }
+
+    public function target_delete($id){
+        ActualTarget::where('id',$id)->delete();
+        return response()->json([
+            'message' => 'DATA SUCCESSFULLY DELETED'
+        ], 200);
+    }
+
 }

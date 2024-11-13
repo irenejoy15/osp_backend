@@ -15,6 +15,9 @@ Route::get('/encode/{id}/{date}', [ScoreBoardController::class, 'get_encode_date
 Route::get('/current', [ScoreBoardController::class, 'current']);
 Route::get('/actual_targets', [ScoreBoardController::class, 'actual_targets']);
 Route::get('/edit_target/{id}', [ScoreBoardController::class, 'edit_target']);
+Route::post('/update_target', [ScoreBoardController::class, 'update_target']);
+
+Route::delete('/target/delete/{id}', [ScoreBoardController::class, 'target_delete']);
 
 Route::get('/user', function (Request $request) {
     return $request->user();
