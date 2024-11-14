@@ -229,4 +229,31 @@ class ScoreBoardController extends Controller
         ], 200);
     }
 
+    public function today_combine_line(){
+        $date = Carbon::now()->format('Y-m-d');
+
+        $actual_line_a = Encode::whereDate('date',$date)->where('line','a')->sum('targetinPcs');
+        $actual_line_b = Encode::whereDate('date',$date)->where('line','b')->sum('targetinPcs');
+
+        $actual_target_a = ActualTarget::whereDate('dateActual',$date)->where('lineActual','a')->sum('targetActual');
+        $actual_target_b = ActualTarget::whereDate('dateActual',$date)->where('lineActual','b')->sum('targetActual');
+
+        $gap_a = $actual_target_a - $actual_line_a;
+        $gap_b = $actual_target_b - $actual_line_b;
+        $jobs_a = Encode::select('job','stockCode')->where('line','a')->whereDate('date',$date)->get();
+
+        $jobs_b = Encode::select('job','stockCode')->where('line','b')->whereDate('date',$date)->get();
+
+        return response()->json([
+            'actualLineA' => $actual_line_a,
+            'actualLineB' => $actual_line_b,
+            'actualTargetA'=>$actual_target_a,
+            'actualTargetB'=>$actual_target_b,
+            'gapA'=>$gap_a,
+            'gapB'=>$gap_b,
+            'monitorJobsA'=>$jobs_a,
+            'monitorJobsB'=>$jobs_b
+        ], 200);
+    }
+
 }

@@ -19,6 +19,8 @@ Route::post('/update_target', [ScoreBoardController::class, 'update_target']);
 
 Route::delete('/target/delete/{id}', [ScoreBoardController::class, 'target_delete']);
 
+Route::get('/today_combine_line', [ScoreBoardController::class, 'today_combine_line']);
+
 Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
