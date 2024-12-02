@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ScoreBoardController;
+use App\Http\Controllers\UserController;
 
 Route::get('/job/{id}', [ScoreBoardController::class, 'get_job']);
 Route::post('/encode', [ScoreBoardController::class, 'encode']);
@@ -20,6 +21,11 @@ Route::post('/update_target', [ScoreBoardController::class, 'update_target']);
 Route::delete('/target/delete/{id}', [ScoreBoardController::class, 'target_delete']);
 
 Route::get('/today_combine_line', [ScoreBoardController::class, 'today_combine_line']);
+
+Route::get('/today_line_a', [ScoreBoardController::class, 'today_line_a']);
+Route::get('/today_line_b', [ScoreBoardController::class, 'today_line_b']);
+
+Route::post('/user/create', [UserController::class, 'create']);
 
 Route::get('/user', function (Request $request) {
     return $request->user();

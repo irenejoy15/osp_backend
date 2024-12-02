@@ -6,3 +6,11 @@ php artisan migrate:refresh --path=\database/migrations/2024_11_07_075850_create
 php artisan migrate --path=\database/migrations/2024_11_11_030915_create_actual_targets_table.php
 
 php artisan migrate:refresh --path=\database/migrations/2024_11_11_030915_create_actual_targets_table.php
+
+php artisan migrate --path=\database/migrations/0001_01_01_000000_create_users_table.php
+
+php artisan migrate --path=\database/migrations/2024_11_07_015720_create_personal_access_tokens_table.php
+
+php artisan migrate:refresh --path=\database/migrations/0001_01_01_000000_create_users_table.php
+
+php artisan migrate:refresh --path=\database/migrations/2024_11_07_015720_create_personal_access_tokens_table.php
