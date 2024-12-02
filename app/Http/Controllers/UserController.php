@@ -8,6 +8,31 @@ use App\Models\User;
 
 class UserController extends Controller
 {
+    public function index(Request $request){
+        $search = $request->get('name');
+        $pageSize = $request->get('pagesize');
+        $currentPage = $request->get('page');
+        $user_query = User::query();
+        
+        if($pageSize && $currentPage):
+            $skip = $pageSize * ($currentPage-1);
+        endif;
+
+        if(empty($search)||$search == 'null'):
+            $users = $user_query->skip($skip)->limit($pageSize)->get();
+            $count =  User::count();
+        else:
+            $users = $user_query->skip($skip)->where('name', 'like', '%' . $search . '%')->limit($pageSize)->get();
+            $count =  User::where('name', 'like', '%' . $search . '%')->count();
+        endif;
+
+        return response()->json([
+            'users' => $users,
+            'message' => 'LIST LOADED',
+            'maxUsers'=>$count
+        ], 200);
+    }
+
     public function create(Request $request){
         $name = $request->input('name');
         $email = $request->input('email');

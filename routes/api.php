@@ -26,6 +26,7 @@ Route::get('/today_line_a', [ScoreBoardController::class, 'today_line_a']);
 Route::get('/today_line_b', [ScoreBoardController::class, 'today_line_b']);
 
 Route::post('/user/create', [UserController::class, 'create']);
+Route::get('/users', [UserController::class, 'index']);
 
 Route::get('/user', function (Request $request) {
     return $request->user();
