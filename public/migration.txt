@@ -14,3 +14,38 @@ php artisan migrate --path=\database/migrations/2024_11_07_015720_create_persona
 php artisan migrate:refresh --path=\database/migrations/0001_01_01_000000_create_users_table.php
 
 php artisan migrate:refresh --path=\database/migrations/2024_11_07_015720_create_personal_access_tokens_table.php
+
+
+CEF 
+
+1. php artisan install:api
+2. User Model add HasApiTokens 
+use Laravel\Sanctum\HasApiTokens;
+
+3. Migrate Users and personal token
+4. Create Base Controller
+5. php artisan config:publish cors
+6.'supports_credentials' => true, inside cors
+7. 
+
+# REDIRECT SA FRONTEND
+SESSION_DOMAIN=127.0.0.1
+SANCTUM_STATEFUL_DOMAINS= 127.0.0.1:4200
+SESSION_SECURE_COOKIE=false
+SESSION_DRIVER=cookie
+SESSION_ENCRYPT=true
+
+8. Auth.php under guards
+        'api' => [
+            'driver' => 'session',
+            'provider' => 'users',
+        ],
+
+9. Api.php and make controller AuthController(not copy paste)
+use App\Http\Controllers\AuthController;
+Route::post('/login', [AuthController::class, 'login']);
+Route::group(['middleware' => ['auth:sanctum']], function () {});
+
+
+10. 2024_11_07_015720_create_personal_access_tokens_table
+$table->uuidMorphs('tokenable');
