@@ -20,6 +20,9 @@ class AuthController extends BaseController
             return response()->json([
                 'token' =>  $user->createToken('osp_dashboard')->plainTextToken,
                 'userId' => $user->id,
+                'name'=> $user->name,
+                'image'=> $user->image,
+                'isAdmin'=> $user->is_admin,
                 'expiresIn'=>3600
             ]);
         } 
